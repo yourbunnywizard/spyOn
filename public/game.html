@@ -1,0 +1,603 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+</style>
+
+<style>
+	body {
+		background-color: #FAFAFA;
+		height: 100vh;
+		overflow: hidden;
+		font-family: 'Inter', sans-serif;
+		padding: 0;
+		margin: 0;
+	}
+
+	.gameModule {
+
+	}
+	
+	.table-body {
+		width: calc(100% - 143px * 2);
+		margin: 0 auto;
+		height: 100%;
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
+  		grid-row-gap: 56px;
+		grid-auto-rows: minmax(180px, auto);
+		grid-auto-columns: minmax(400px, auto);
+		color: #fff;
+		font-size: 40px;
+		padding: 96px 0;
+	}
+	
+	.table-body-player-card {	
+		max-height: 170px;
+		max-width: 390px;	
+		font-size: 22px;
+		color: #fff;
+	}	
+		.table-body-player-card:hover button.voting-spy-btn {
+			display: block;
+		}
+
+	.table-body-player-card-preview {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		color: #000;
+		font-size: 25px;
+		font-weight: 700;
+		text-align: center;
+		border: 5px solid #4AFFA8;
+		background: #ffff;
+		overflow: hidden;
+
+		position: relative;
+		z-index: 0;
+
+		transition: 0.3s;
+		
+	}
+		.table-body-player-card-preview:hover .table-body-player-card-actions {
+			top: -5px;
+		}
+
+
+	.table-body-player-card-actions {
+		position: absolute;
+		z-index: 10;
+		top: 200px;
+		left: -5px;
+
+		width: calc(100% + 10px);
+		height: calc(100% + 10px);
+
+		display: flex;	
+
+		transition: 0.3s;
+	}
+		.table-body-player-card-actions img {
+			width: 42px;
+			height: 42px;
+			margin-bottom: 30px;
+		}
+		.table-body-player-card-actions span {
+			display: block;
+		}
+	.actions-ask, .actions-vote {
+		width: 100%;
+		height: 100%;
+		background-color: #9147FF;
+		color: #fff;
+		text-align: center;
+		font-size: 16px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.actions-ask:hover, .actions-vote:hover {
+		cursor: pointer;
+		background-color: #222222;
+	}
+	.actions-ask {
+		display: none;
+	}
+	.actions-vote {
+		
+	}
+
+	.table-body-player-card-preview span {
+	}
+	
+	.table-body-player-card-preview-empty {
+		opacity: 0.3;
+		background-color: #f0f0f0;
+	}
+
+	.table-body-board {
+		position: relative;
+
+		margin: 0 auto;
+		width: 100%;
+		max-width: 550px;
+		max-height: calc(100% - 96px);
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 5;
+		
+		overflow: hidden;
+
+		background-color: #fff;
+		color: #000;
+	}
+
+	.location-box, .location-box-spy {
+		width: 100%;		
+		height: 310px;
+	}
+
+	.location-box {		
+		overflow: hidden;
+	}
+	.location-box img {
+		width: 100%;
+	}
+
+	.location-box-spy {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		background-color: #9147ff;
+	}
+
+	.location-box-spy img {
+		max-width: 210px;
+		max-height: 210px;
+	}
+
+	.location-box-spy button {
+		display: block;
+    	text-align: center;
+		margin-top: 16px;
+		width: 220px;
+		height: 40px;
+		background-color: #fff;
+		color: #222222;
+		transition: 0.3s;
+		border: none;
+		border-radius: 20px;
+		font-size: 16px;
+		font-weight: 700;
+
+	}
+	.location-box-spy button:hover {
+		cursor: pointer;
+		color: #fff;
+		background-color: #222222;
+	}
+
+	.table-body-board-headline {
+		height: 48px;
+		background-color: #9147ff;
+		color: #fff;
+		font-size: 20px;
+		text-transform: uppercase;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 32px;
+		font-weight: 700;
+	}
+	.table-body-board-headline h2 {
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+		font-weight: 700;
+	}
+	
+
+	.table-body-board-chat {
+		padding: 24px;
+		font-size: 16px;		
+		font-weight: 300;
+	}
+
+	.table-body-board-chat-messages {
+		overflow-x: hidden;
+		overflow-y: auto;
+		max-height: calc(530px - 24px * 4 - 5px - 96px);
+	}
+
+	/* width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(145, 71, 255, 0.25);
+    border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(145, 71, 255, 0.6);
+    border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(145, 71, 255, 1);
+}
+
+	.table-body-board-chat-messages > div {
+		padding: 8px;
+		margin-top: 8px;
+	}
+	.table-body-board-chat-messages span {
+		font-weight: 800;
+	}
+
+	.table-body-board-chat-navigation {
+		width: calc(100% - 48px);
+		height: 48px;
+		position: absolute;
+		display: flex;
+		justify-content: space-between;
+		align-self: center;
+		bottom: 24px;
+		left: 24px;
+	}
+	.table-body-board-chat-navigation input {
+		font-size: 20px;
+		padding: 15px 8px;
+		height: 48px;
+		width: 100%;
+		margin-right: 16px;
+
+		background: #FAFAFA;
+		border: 1px solid rgba(145, 71, 255, 0.25);
+		border-radius: 4px;
+
+		font-size: 16px;
+	}
+	.table-body-board-chat-navigation input:active,
+	 .table-body-board-chat-navigation input:focus,
+	 .table-body-board-chat-navigation input:hover {
+	 	border: 1px solid #9147FF;
+	 	outline: none;
+	}
+
+	.table-body-board-chat-navigation button {
+		width: 48px;
+		height: 48px;
+
+		background: #9147FF;
+		border: none;
+		border-radius: 4px;
+
+		font-size: 24px;
+	}
+
+	.inter-resp-box, .picklocation-box {
+		position: absolute;
+		z-index: 100;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;			
+		background-color: rgba(255,255,255,0.3);
+		color: #000;
+		transition: 0.3s;
+	}
+	.inter-resp, .picklocation {
+		padding: 40px 56px 48px;
+		width: 1040px;
+		height: 222px;
+		position: absolute;
+		top: calc( (100% - 222px) / 2 );
+		left: calc( (100% - 1040px) / 2 );
+		border-radius: 25px;
+		font-size: 25px;
+		font-weight: normal;
+		
+		background-color: #fff;
+		box-shadow: 0px 0px 15px rgba(145, 71, 255, 0.25);
+	}
+
+	.inter-resp h3, .picklocation h3 {
+		font-size: 25px;
+		color: #333333;
+		margin: 0;
+		margin-bottom: 40px;	
+		text-align: center;		
+	}
+	.inter-resp-navigation textarea {
+		min-width: 280px;
+		width: calc(100% - 146px - 40px);
+		max-width: calc(100% - 146px - 40px);
+		padding: 17px 32px;
+		font-size: 18px;
+		height: 64px;
+		min-height: 64px;
+		border: 1px solid rgba(145, 71, 255, 0.25);
+		border-radius: 32px;
+		outline: none;
+	}
+	.inter-resp-navigation textarea:active, 
+	.inter-resp-navigation textarea:focus,
+	.inter-resp-navigation textarea:hover {
+		outline: none;
+	}
+	.inter-resp-navigation button {
+		height: 64px;
+		width: 146px;
+		position: relative;
+		float: right;
+		padding: 0;
+		background-color: #9147FF;
+		color: #fff;
+		font-size: 25px;
+		border-radius: 32px;	
+	}
+	#setSpyLocation {
+		display: block;
+		text-align: center;
+	}
+
+	.picklocation {
+		text-align: center;
+	}
+	.inter-resp-navigation input {
+		min-width: 280px;
+		width: calc(100% - 146px - 40px);
+		max-width: calc(100% - 146px - 40px);
+		padding: 17px 32px;
+		font-size: 18px;
+		height: 64px;
+		min-height: 64px;
+		border: 1px solid rgba(145, 71, 255, 0.25);
+		border-radius: 32px;
+		outline: none;
+	}
+
+	.voting-container {
+
+		position: absolute;
+		z-index: 100;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;			
+		background-color: rgba(255,255,255,0.3);
+		color: #000;
+		transition: 0.3s;		
+	}
+
+	.voting-container-box {
+
+		padding: 40px 104px;
+		height: 222px;
+		width: 1040px;
+		position: absolute;
+		top: calc( (100% - 222px) / 2 );
+		left: calc( (100% - 1040px) / 2 );
+		border-radius: 25px;
+		font-size: 25px;
+		font-weight: normal;
+		text-align: center;
+
+		background-color: #fff;
+		box-shadow: 0px 0px 15px rgba(145, 71, 255, 0.25);	
+
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+
+	.voting-container button.voteBtn {
+		width: 220px;
+		height: 64px;
+		border: 1px solid #9147FF;
+		border-radius: 32px;
+		color: #9147FF;
+		background-color: #fff;
+		font-size: 25px;
+		font-weight: 700;
+	}
+	.voting-container button.voteBtn:hover {
+		cursor: pointer;
+		color: #fff;
+		background-color: #9147FF;
+	}
+	.voting-btns {
+		margin-top: 15px;
+		display: flex;
+		justify-content: space-around;
+	}
+	
+	p.votingRez {
+		font-size: 18px;
+	}
+
+
+
+</style>
+
+
+<div class="voting-container" style="display: none;">
+
+	<div class="voting-container-box">
+		<p>Denis думает что ВВВ шпион</p>		
+		<!--<p class="votingRez">(<span style="color: #00ff00">За</span> : <span id="yesCount">0</span> <span style="color: #ff0000">Против</span> : <span id="noCount">0</span>)</p>
+-->
+		<div class="voting-btns"> 
+			<button id="yesBtn" class="voteBtn">ДА (<span id="yesCount">0</span>)</button>
+			<button id="noBtn" class="voteBtn">НЕТ (<span id="noCount">0</span>)</button>
+		</div>
+		
+	</div>
+</div>
+
+<div class="picklocation-box" style="display: none;">
+	<div class="picklocation">
+		<h3>Указать локацию</h3>
+		<div class="inter-resp-navigation">
+			<input id="locList" placeholder="------------------------------------------------------------------------" list="locationsList">
+			<button id="setSpyLocation">Выбрать</button>
+		</div>		
+	</div>
+
+	
+</div>
+
+<div class="gameModule">
+
+	<div class="inter-resp-box" style="display: none;">
+		<div class="inter-resp">
+			<h3>Задайте вопрос игроку <span>&&&&&</span></h3>
+			<div class="inter-resp-navigation">
+				<textarea name="" id="" cols="30" rows="2" placeholder="Спросить игрока"></textarea>
+				<button id="inter-resp_button">Отправить</button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="table-body">
+
+		<div class="table-body-player-card card-player-1">
+			<div class="table-body-player-card-preview">						
+				<span class="player-name">Denis</span>
+				<div class="table-body-player-card-actions">
+					<div class="actions-ask">
+						<img src="img/ask.png">
+						<span>Задать<br>вопрос</span>
+					</div>
+					<div class="actions-vote voting-spy-btn">
+						<img src="img/vote.png">
+						<span>Выставить<br>на голосование</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="table-body-player-card card-player-2">			
+		</div>
+
+		<div class="table-body-player-card card-player-3">			
+		</div>
+		
+		
+		<div class="table-body-board">
+
+			<div class="location-box">
+				<img class="location-img" src="img/school.jpg">
+				
+			</div>
+
+			<div class="location-box-spy" style="display: none;">
+				<div class="logo">
+					<img src="img/logotype-inv.png" alt="logo.png">
+				</div>
+				<button id="spy-vote-location">Указать локацию</button>
+			</div>
+
+
+			<div class="table-body-board-headline" id="board-headline">
+				<h2 class="gamelocation" id="gamelocation"></h2>
+				<div class="gametimer-box">
+					<img class="icoTimer" src="">
+					<span class="gametimer">7:44</span>
+				</div>
+			</div>
+			
+
+		
+			<div class="table-body-board-chat">			
+
+				<div class="table-body-board-chat-messages">
+								
+				</div>
+				<div class="table-body-board-chat-navigation">
+					<input type="text" id="textMessage" placeholder="Отправить сообщение (Enter, тоже можно)">
+					<button id="sendMail"><img src="img/send.png"></button>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="table-body-player-card card-player-4">			
+		</div>
+		
+	</div>
+</div>
+
+
+
+<datalist id="locationsList">
+    <option value="Больница"></option>
+    <option value="Школа"></option>
+    <option value="Фестиваль"></option>
+    <option value="Стадион"></option>
+    <option value="Ресторан"></option>
+</datalist>
+
+
+
+<script id="empty-palyer-template" type="text/template">
+       
+	<div class="table-body-player-card-preview-empty card-empty">
+		<div class="table-body-player-card-preview-img">
+			<img src="img/empty.png" alt="empty.png" id="player1-img">
+		</div>
+	</div>
+
+</script>
+
+<script id="palyer-template" type="text/template">
+
+	<div class="table-body-player-card-preview">
+		
+		<span class="player-name">Denis</span>
+		<div class="table-body-player-card-actions">
+			<div class="actions-ask">
+				<img src="img/ask.png">
+				<span>Задать<br>вопрос</span>
+			</div>
+			<div class="actions-vote voting-spy-btn">
+				<img src="img/vote.png">
+				<span>Выставить<br>на голосование</span>
+			</div>
+		</div>
+	</div>
+       
+	
+</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/9ea1653bd2.js" crossorigin="anonymous"></script>
+
+<script>
+	for (var i = 1; i < 15; i++) {
+		//$('.card-player-' + i).html($('#empty-palyer-template').html());
+	}
+	
+</script>
+
+
+
+<!--
+	<div class="table-body-player-card-preview">
+		<button class="voting-spy-btn" title="Выставить на голосование"><i class="fas fa-user-secret"></i></button>
+		<div class="table-body-player-card-preview-img">
+			<img src="img/photo1.jpg" alt="photo1.jpg">
+		</div>
+		<span class="player-name"></span>
+	</div>
+-->

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Spy Man</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">	
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<style>
+		
+	a, a:active, a:hover, a:focus {
+		text-decoration: unset;
+		color: unset;
+	}
+
+	body {
+		background-color: #FAFAFA;
+		height: 100vh;
+		color: #fff;
+		font-size: 46px;
+		font-weight: 700;
+		font-family: 'Inter', sans-serif;
+	}
+
+	.logo, .nickname, .createGame, .joinGame {
+		text-align: center;
+		
+	}
+
+	input {
+		color: #9147FF;
+		padding: 17px 32px;
+		width: 400px;
+		height: 64px;	
+		font-size: 25px;
+		border-radius: 32px;
+		border: 1px solid rgba(145, 71, 255, 0.25);
+	}
+	input::placeholder {
+		color: #9147FF;
+		opacity: 0.5;
+	}
+	input, button {
+		outline: none;		
+	}
+	button:active, button:hover, button:focus {
+	    outline: 0;
+	    outline-offset: 0;
+	}
+
+	button {
+		border: none;
+		font-size: 25px;
+		padding: 8px;
+		width: 480px;
+		height: 96px;
+		border-radius: 48px;
+		background-color: #9147FF;
+		color: #fff;
+		font-weight: bold;
+		text-align: left;
+		display: inline-flex;
+   		align-items: center;
+	}
+	button#joinGame-btn {
+		background-color: #222222;
+	}
+	button > span {
+		display: inline-block;
+		margin: 0 auto;
+	}
+
+	label {
+		display: block;
+	}
+
+	.content-area {
+		position: relative;
+	}
+
+</style>
+
+<body>
+	<section id="content-area">
+
+	<div class="container-fluid">		
+		<div class="row">
+			<div class="col-12" style="margin: 160px 0 92px;">
+				<div class="logo">
+					<img src="img/logotype.png" alt="logo.png">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 80px;">
+				<div class="nickname">
+					<input id="nickName" type="text" placeholder="Имя">
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="createGame">
+					<button id="createGame-btn"><img src="img/create.png"><span>Создать комнату</span></button>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="joinGame">
+					<button id="joinGame-btn"><img src="img/join.png"><span>Присоединиться</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="info" style="display: none;"></div>
+
+	<style>
+
+		.createGameScreen, .joinGameScreen {
+			position: absolute;
+			z-index: 100;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;			
+			background-color: rgba(255,255,255,0.3);
+			color: #000;
+			transition: 0.3s;
+
+		}
+		.createGameScreen-box, .joinGameScreen-box {			
+			padding: 40px 104px;
+			height: 222px;
+			width: 1040px;
+			position: absolute;
+			top: calc( (100% - 222px) / 2 );
+			left: calc( (100% - 1040px) / 2 );
+			border-radius: 25px;
+			font-size: 25px;
+			font-weight: normal;
+			
+			background-color: #fff;
+			box-shadow: 0px 0px 15px rgba(145, 71, 255, 0.25);
+		}
+		.createGameScreen h1, .joinGameScreen h1 {
+			font-size: 25px;
+			font-weight: normal;
+			text-align: center;
+			margin: 0;
+		}
+		.createGameScreen > span, .joinGameScreen > span {
+			font-size: 24px;
+		}
+		
+		.changeRoom, .players {
+			margin-top: 48px;
+			display: flex;
+			justify-content: space-between;
+		}
+		.changeRoom .room,
+		.players .player {
+			border: 1px solid #9147FF;
+			border-radius: 50%;
+			width: 64px;
+			height: 64px;
+			line-height: 60px;
+			font-size: 25px;
+			transition: 0.3s;		
+			text-align: center;
+		}
+
+		.changeRoom .room:hover {
+			background-color: #9147FF;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		.joinGameScreen input {
+			display: block;
+			margin: 0 auto;	
+		}
+		.joingame-box {
+			margin-top: 40px;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+
+
+		
+
+		.createGameScreen button:hover, .joinGameScreen button:hover {
+			background-color: #222222;
+		}
+
+		.createGameScreen button, .joinGameScreen button {
+			display: block;
+			margin: 0;
+			font-size: 16px;
+			color: #fff;
+			text-align: center;
+			background-color: #9147FF;
+		}
+
+		button#startGame {			
+			width: 180px;
+			height: 40px;
+		}
+		button#connTable {	
+			width: 208px;
+			height: 64px;
+		}
+
+		.roominfo {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		#roomId {
+			font-weight: bold;
+		}
+
+
+		.playerJoined {
+			background-color: #9147FF;
+			color: #ffffff;
+		}
+		.player {
+			color: #9147FF;
+		}
+
+
+	</style>
+
+
+	<div class="createGameScreen" id="createGameScreen" style="display: none;">
+		<div class="createGameScreen-box" id="createGameScreen-box">
+
+			<h1>Укажите количество игроков</h1>
+
+			<div class="changeRoom" id="changeRoom">			
+				<div class="room room1" id="room1">
+					<span>4</span>
+				</div>			
+				<div class="room room2" id="room2">
+					<span>5</span>
+				</div>
+				<div class="room room3" id="room3">
+					<span>6</span>
+				</div>
+				<div class="room room4" id="room4">
+					<span>7</span>
+				</div>
+				<div class="room room5" id="room5">
+					<span>8</span>
+				</div>
+				<div class="room room6" id="room6">
+					<span>9</span>
+				</div>
+				<div class="room room7" id="room7">
+					<span>10</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="joinGameScreen" id="joinGameScreen" style="display: none;">
+		<div class="joinGameScreen-box" id="joinGameScreen-box">
+			<h1 style="margin-bottom: 50p x;">Введите код комнаты</h1>
+			<div class="joingame-box">
+				<input type="text" id="keyTable" placeholder="Код комнаты">
+				<button id="connTable">Присоединиться</button>
+			</div>
+			
+		</div>	
+	</div>
+
+
+	</section>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+	
+		$('#createGame-btn').click(function(event) {
+			event.preventDefault();
+			$('#createGameScreen').show();
+		});	
+
+	
+
+		$('#joinGame-btn').click(function(event) {
+			event.preventDefault();
+			$('#joinGameScreen').show();
+		});	
+
+		$(document).mouseup(function (e){ // событие клика по веб-документу
+			var div = $("#createGameScreen-box"); // тут указываем ID элемента
+			var div1 = $('#joinGameScreen-box');
+			if ( !div.is(e.target) // если клик был не по нашему блоку
+			    && div.has(e.target).length === 0 && !div1.is(e.target)  && div1.has(e.target).length === 0 ) { // и не по его дочерним элементам
+				div.parent().hide(); // скрываем его
+				div1.parent().hide();
+			}
+		});
+
+		
+
+		//var socket = io.connect();
+
+	</script>
+	<script src="app.js"></script>
+	
+	<script src="https://kit.fontawesome.com/9ea1653bd2.js" crossorigin="anonymous"></script>
+</body>
+</html>
